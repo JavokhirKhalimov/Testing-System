@@ -1,0 +1,3 @@
+C# dasturlash tili qaysi kompaniya tomonidan yaratilgan?
+C# da klas yaratish uchun qaysi kalit so'zdan foydalaniladi?
+C# dasturlash tili qaysi matn muhiti bilan ishlaydi?
