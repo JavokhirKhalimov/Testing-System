@@ -76,38 +76,47 @@ namespace Testing
         private void button1_Click(object sender, EventArgs e)
         {
             timer.Start();
-            
+            int x = 10, y = 10;
+
             Panel panel = new Panel();
             panel.Location = new Point(10, 10);
-            panel.Size = new Size(300, 200);
+            panel.Size = new Size(400, 300);
             this.Controls.Add(panel);
 
-            
 
             // Создание метки с текстом вопроса
-            Label questionLabel = new Label();
-            questionLabel.Location = new Point(10, 10);
-            questionLabel.AutoSize = true;
-            panel.Controls.Add(questionLabel);
+
+
             //Рандом
             Random random = new Random();
-            
+            int radioButtonOffset = 20;
+
             for (int j=0; j<savollar.Length; j++)
             {
+                Label questionLabel = new Label();
                 // Установка текста первого вопроса
                 questionLabel.Text = savollar[j];
+
+                questionLabel.Location = new Point(x, y);
+                questionLabel.AutoSize = true;
+                panel.Controls.Add(questionLabel);
 
                 // Создание радиокнопок с вариантами ответа
                 for (int i = 0; i < 3; i++)
                 {
-                    int randomNumber = random.Next(0, javoblar[j].Length);
-                    string element = javoblar[j][randomNumber];
+                    List<string> list = new List<string>(javoblar[j]);
+                    int randomNumber = random.Next(0, list.Count);
+
                     RadioButton radioButton = new RadioButton();
-                    radioButton.Location = new Point(10, 40 + i * 30);
-                    radioButton.Text = javoblar[j][randomNumber];
+                    radioButton.Location = new Point(x + 20, y + radioButtonOffset * (i + 1));
+                    radioButton.Text = list[randomNumber];
                     panel.Controls.Add(radioButton);
-                    javoblar[j].ToList().RemoveAll(element);
+
+                    list.RemoveAt(randomNumber);
+                    javoblar[j] = list.ToArray();
+
                 }
+                y += radioButtonOffset * 4;
             }
 
             
