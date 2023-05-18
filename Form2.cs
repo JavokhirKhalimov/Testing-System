@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Testing
 {
@@ -17,6 +17,8 @@ namespace Testing
         private int remainingSeconds;
         string[] savollar;
         List<string[]> javoblar=new List<string[]>();
+        Panel panel = new Panel();
+        
 
         
 
@@ -75,12 +77,13 @@ namespace Testing
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
             timer.Start();
-            int x = 10, y = 10;
+            int x = 10,  a=555, b=0;
 
-            Panel panel = new Panel();
+           // Panel panel = new Panel();
             panel.Location = new Point(10, 10);
-            panel.Size = new Size(400, 300);
+            panel.Size = new Size(800, 600);
             this.Controls.Add(panel);
 
 
@@ -93,14 +96,13 @@ namespace Testing
 
             for (int j=0; j<savollar.Length; j++)
             {
-                Label questionLabel = new Label();
-                // Установка текста первого вопроса
-                questionLabel.Text = savollar[j];
-
-                questionLabel.Location = new Point(x, y);
-                questionLabel.AutoSize = true;
-                panel.Controls.Add(questionLabel);
-
+                GroupBox questionGroup = new GroupBox();
+                questionGroup.Location = new Point(3, 5+b);
+                questionGroup.Size = new Size(555, 155);
+                questionGroup.Text = savollar[j];
+                panel.Controls.Add(questionGroup);
+                b += 155;
+                
                 // Создание радиокнопок с вариантами ответа
                 for (int i = 0; i < 3; i++)
                 {
@@ -108,19 +110,63 @@ namespace Testing
                     int randomNumber = random.Next(0, list.Count);
 
                     RadioButton radioButton = new RadioButton();
-                    radioButton.Location = new Point(x + 20, y + radioButtonOffset * (i + 1));
+                    radioButton.Location = new Point(x , 30 + radioButtonOffset * i);
                     radioButton.Text = list[randomNumber];
-                    panel.Controls.Add(radioButton);
+                    questionGroup.Controls.Add(radioButton);
 
                     list.RemoveAt(randomNumber);
                     javoblar[j] = list.ToArray();
 
                 }
-                y += radioButtonOffset * 4;
+                
+
+                
             }
 
             
 
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                timer.Stop();
+
+                // Переменная для подсчета правильных ответов
+                int correctAnswers = 0;
+
+                // Перебираем все GroupBox на панели
+                foreach (GroupBox questionGroup in panel.Controls.OfType<GroupBox>())
+                {
+                    // Находим выбранную радиокнопку внутри GroupBox
+                    RadioButton selectedRadioButton = questionGroup.Controls.OfType<RadioButton>()
+                        .FirstOrDefault(radioButton => radioButton.Checked);
+
+                    // Получаем индекс правильного ответа для текущего вопроса
+                    int questionIndex = panel.Controls.IndexOf(questionGroup);
+                    int correctAnswerIndex = 0;
+
+                    // Проверяем ответ студента
+                    if (selectedRadioButton != null && selectedRadioButton.Tag != null && selectedRadioButton.Tag.ToString() == correctAnswerIndex.ToString())
+                    {
+                        // Ответ верный
+                        correctAnswers++;
+                    }
+                }
+
+                // Выводим результаты
+                MessageBox.Show($"Количество правильных ответов: {correctAnswers}");
+
+                // Закрытие формы
+                this.Close();
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             
         }
     }
