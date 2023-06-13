@@ -1,4 +1,0 @@
-"Microsoft"
-"new" 
-"Visual Studio Code"
-"private"

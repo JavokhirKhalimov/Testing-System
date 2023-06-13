@@ -2,4 +2,3 @@
 "new", "class", "static"
 "Visual Studio Code", "Eclipse", "Visual Studio"
 "private", "protected", "internal"
-"3", "2", "17"
