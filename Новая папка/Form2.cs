@@ -15,6 +15,7 @@ namespace Testing
 {
     public partial class Form2 : Form
     {
+        
         public String guid;
         public SqlConnection SqlConnection { get; set; }
         public SqlCommand _cmd;
@@ -49,7 +50,7 @@ namespace Testing
             //чтение ссылки
             string readAllFile_savollar = File.ReadAllText(path[0]);
             string readAllFile_javoblar = File.ReadAllText(path[1]);
-            savollar = readAllFile_savollar.Split(',');
+            savollar = readAllFile_savollar.Split('№');
             string[] lines = readAllFile_javoblar.Split('\n');
 
 
@@ -85,11 +86,13 @@ namespace Testing
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.ControlBox = false;
             button1.Enabled = false;
             timer.Start();
             int x = 10, a = 555, b = 0;
 
             // Panel panel = new Panel();
+            panel.AutoScroll = true;
             panel.Location = new Point(10, 10);
             panel.Size = new Size(800, 600);
             this.Controls.Add(panel);
@@ -186,9 +189,11 @@ namespace Testing
                     ($"INSERT INTO EVALUATION(ID, Rating) " +
                 $"VALUES('{guid}', '{correctAnswers}')", SqlConnection);
                 _cmd.ExecuteNonQuery();
-
+                SqlConnection.Close();
+                guid=Guid.NewGuid().ToString();
                 // Закрытие формы
                 this.Close();
+                
 
 
             }

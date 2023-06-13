@@ -16,6 +16,7 @@ namespace Testing
 
     public partial class Form1 : Form
     {
+        
         String id;
          SqlConnection sqlConnection =
             new SqlConnection(@"Data Source=WIN-685GVMRFB5H\SQLEXPRESS;Initial Catalog=Testing_System_2023;Integrated Security=True;");
@@ -32,7 +33,7 @@ namespace Testing
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
 
             if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
             {
@@ -41,6 +42,7 @@ namespace Testing
             }
             else
             {
+                button1.Enabled = false;
                 string text = textBox1.Text;
                 text = text.Replace("'", "");
                 text = text.Replace("\"", "");
@@ -60,6 +62,7 @@ namespace Testing
                 forma2.SqlConnection = sqlConnection;
                 forma2._cmd=cmd;
                 forma2.guid = id;
+                
                 forma2.Show();
             }
             
